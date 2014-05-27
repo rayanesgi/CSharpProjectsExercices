@@ -48,7 +48,7 @@ namespace Nurl
 			return new TimeSpan((long)times.Select(ts => ts.Seconds).Average());
 		}
 		
-		private bool isAnUrl(){
+		private bool isAnUrl()
 		{
 		    try
 		    {
@@ -72,5 +72,6 @@ namespace Nurl
 		    }
 		}
 		
+		}
 	}
 }
