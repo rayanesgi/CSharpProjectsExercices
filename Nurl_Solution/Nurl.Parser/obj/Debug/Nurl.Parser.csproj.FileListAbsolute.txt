@@ -1,0 +1,1 @@
+C:\Users\Rayane\Documents\GitHub\CSharpProjectsExercices\Nurl_Solution\Nurl.Parser\obj\Debug\Nurl.Parser.csprojResolveAssemblyReference.cache

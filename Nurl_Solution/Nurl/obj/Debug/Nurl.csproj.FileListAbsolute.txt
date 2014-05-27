@@ -1,0 +1,5 @@
+C:\Users\Rayane\Documents\GitHub\CSharpProjectsExercices\Nurl_Solution\Nurl\bin\Debug\Nurl.exe
+C:\Users\Rayane\Documents\GitHub\CSharpProjectsExercices\Nurl_Solution\Nurl\bin\Debug\Nurl.pdb
+C:\Users\Rayane\Documents\GitHub\CSharpProjectsExercices\Nurl_Solution\Nurl\obj\Debug\Nurl.exe
+C:\Users\Rayane\Documents\GitHub\CSharpProjectsExercices\Nurl_Solution\Nurl\obj\Debug\Nurl.pdb
+C:\Users\Rayane\Documents\GitHub\CSharpProjectsExercices\Nurl_Solution\Nurl\obj\Debug\Nurl.csprojResolveAssemblyReference.cache
