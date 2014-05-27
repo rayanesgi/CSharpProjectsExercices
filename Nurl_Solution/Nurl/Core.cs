@@ -58,7 +58,7 @@ namespace Nurl
 		    		return false;
 		    	
 		        //Creating the HttpWebRequest
-		        HttpWebRequest request = WebRequest.Create() as HttpWebRequest;
+		        HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
 		        //Setting the Request method HEAD, you can also use GET too.
 		        request.Method = "HEAD";
 		        //Getting the Web Response.
@@ -74,4 +74,3 @@ namespace Nurl
 		
 		}
 	}
-}
