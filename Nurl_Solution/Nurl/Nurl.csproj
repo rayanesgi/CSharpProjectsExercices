@@ -34,7 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <StartArguments>test -times 5</StartArguments>
+    <StartArguments>get -url "http://durant.com" -save</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentLine.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="LogManager.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

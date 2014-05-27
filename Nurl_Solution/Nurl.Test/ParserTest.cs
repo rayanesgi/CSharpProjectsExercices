@@ -21,7 +21,7 @@ namespace Nurl.Test
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
-			Assert.IsFalse(p.HadErrors,"Erreur rencontrée durant le traitement des arguments");
+			Assert.IsFalse(p.Log.HasError,"Erreur rencontrée durant le traitement des arguments");
 		}
 		
 		[Test]
@@ -30,7 +30,7 @@ namespace Nurl.Test
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
-			Assert.IsTrue(p.HadErrors);
+			Assert.IsTrue(p.Log.HasError);
 		}
 		
 		[Test]
@@ -39,7 +39,7 @@ namespace Nurl.Test
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
-			Assert.IsTrue(p.HadErrors);
+			Assert.IsTrue(p.Log.HasError);
 		}
 		
 		[Test]
@@ -48,7 +48,7 @@ namespace Nurl.Test
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
-			Assert.IsTrue(p.HadErrors);
+			Assert.IsTrue(p.Log.HasError);
 		}
 		
 		[Test]
@@ -57,7 +57,7 @@ namespace Nurl.Test
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
-			Assert.IsFalse(p.HadErrors);		
+			Assert.IsFalse(p.Log.HasError);		
 		}
 		
 		[Test]
@@ -66,7 +66,7 @@ namespace Nurl.Test
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
-			Assert.IsTrue(p.HadErrors);	
+			Assert.IsTrue(p.Log.HasError);	
 		}
 	}
 }

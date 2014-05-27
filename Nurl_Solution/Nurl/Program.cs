@@ -17,8 +17,8 @@ namespace Nurl
 			Parser p = new Parser(args);
 			p.parseArgs();
 			
-			if(p.HadErrors)
-				Console.WriteLine(p.Log);
+			if(p.Log.HasError)
+				Console.WriteLine(p.Log.Message.ToString());
 			
 			Console.WriteLine("Finish");
 			Console.ReadKey();
