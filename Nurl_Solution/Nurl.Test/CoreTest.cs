@@ -53,6 +53,37 @@ namespace Nurl.Test
 		}
 		
 		[Test]
+		public void Should_Display_Good_Text(){
+			string[] args = new string[]{"get","-url","http://webbdoger93.free.fr/testNurl/hello.html"};
+			Parser p = new Parser(args);
+			p.parseArgs();
+			
+			Core c = new Core(p.Line);
+			Assert.AreEqual("<h1>Hello test<h1>",c.executeGet());
+			
+		}
+		
+		[Test]
+		public void Should_Fill_File_With_Good_Text(){
+			string[] args = new string[]{"get","-url","http://webbdoger93.free.fr/testNurl/hello.html","-save","C:/Bonjour.txt"};
+			Parser p = new Parser(args);
+			p.parseArgs();
+			
+			Core c = new Core(p.Line);
+			Assert.IsTrue(c.executeSave());
+			
+			Assert.AreEqual(File.Exists(args[4]),true);
+			string content = String.Empty;
+			using(FileStream fs = new FileStream(args[4],FileMode.Open)){
+				using(StreamReader sr = new StreamReader(fs)){
+					content=sr.ReadToEnd();
+				}
+			}
+			
+			Assert.AreEqual("<h1>Hello test<h1>",content);
+		}
+		
+		[Test]
 		public void Should_Have_Good_Number_Of_Results(){
 			string[] args = new string[]{"test","-url","http://horloge.parlante.online.fr/","-times","5"};
 			Parser p = new Parser(args);

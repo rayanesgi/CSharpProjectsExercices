@@ -109,7 +109,7 @@ namespace Nurl
 			FileStream fs = null;
 			StreamWriter sw = null;
 			try{
-				using(fs = new FileStream(line.useSave.Value,FileMode.OpenOrCreate)){
+				using(fs = new FileStream(line.useSave.Value,FileMode.Create)){
 					using(sw = new StreamWriter(fs)){
 						if(line.isValidUrl)
 							sw.Write(this.executeGet());
