@@ -19,50 +19,17 @@ namespace Nurl.Test
 	[TestFixture]
 	public class CoreTest
 	{
-		[Test]
-		public void Should_Show_Fake_Url()
-		{
-			string[] args = new string[]{"get","-url","http://test"};
-			Parser p = new Parser(args);
-			p.parseArgs();
-			
-			Core c = new Core(p.Line);
-			string result = c.executeCommand();
-			
-			Assert.AreEqual(result,"<h1>You're entered a fake url</h1>");
-		}
-		
-		[Test]
-		public void Should_Show_Times(){
-			string[] args = new string[]{"get","-url","http://api.openweathermap.org/data/2.5/weather?q=paris&units=metric","-times","3"};
-			Parser p = new Parser(args);
-			p.parseArgs();
-			
-			Core c = new Core(p.Line);
-			
-			List<TimeSpan> ts = c.executeTest();
-			if (ts == null)
-				return;
-			StringBuilder sb = new StringBuilder();
-			
-			// On recrée le string à la main
-			ts.Select((x,i)=>new{Time = x, Index = i}).ToList()
-				.ForEach(x =>sb.AppendFormat("{0}) {1}sec ",x.Index,x.Time.Seconds));
-			
-			Assert.AreEqual(sb.ToString(),c.executeCommand());
-			
-		}
 		
 		[Test]
 		public void Should_Create_File_And_Fill(){
-			string[] args = new string[]{"get","-url","http://horloge.parlante.online.fr/","-save","C:/bonjour.txt"};
+			string[] args = new string[] {"get","-url","http://horloge.parlante.online.fr/","-save","C:/bonjour.txt"};
 			Parser p = new Parser(args);
 			p.parseArgs();
 			
 			Core c = new Core(p.Line);
-			string result = c.executeCommand();
+			c.executeCommand();
 			
-			Assert.IsTrue(File.Exists(args[4]));
+			Assert.AreEqual(File.Exists(args[4]),true);
 			
 			string content;
 			
@@ -75,13 +42,26 @@ namespace Nurl.Test
 			Assert.IsNotNullOrEmpty(content);
 		}
 		
+		[Test]
 		public void Should_Display_Error_On_Fake_Url(){
 			string[] args = new string[]{"get","-url","http://horloge.parlante.onlineERREUR.fr/"};
 			Parser p = new Parser(args);
 			p.parseArgs();
 			
 			Core c = new Core(p.Line);
-			Assert.AreEqual("L'url entrée n'existe pas.",c.executeCommand());
+			c.executeGet();
+			Assert.AreEqual("Une erreur a été rencontrée lors du téléchargement du contenu de l'url\r\n",c.Log.Message.ToString());
 		}
+		
+		[Test]
+		public void Should_Have_Good_Number_Of_Results(){
+			string[] args = new string[]{"test","-url","http://horloge.parlante.online.fr/","-times","5"};
+			Parser p = new Parser(args);
+			p.parseArgs();
+			
+			Core c = new Core(p.Line);
+			Assert.AreEqual(Int32.Parse(args[4]),c.executeTest().Count);
+		}
+		
 	}
 }

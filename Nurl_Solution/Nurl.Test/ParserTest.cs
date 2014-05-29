@@ -13,15 +13,25 @@ namespace Nurl.Test
 {
 	[TestFixture]
 	public class ParserTest
-	{
+	{		
+	
 		[Test]
 		public void GetWithSaveOption()
 		{
-			string[] args = new string[]{"get","-url","http://durant.com","-save","C:/Bonjour.txt"};
+			string[] args = new string[]{"get","-url","http://horloge.parlante.online.fr/","-save","C:/Bonjour.txt"};
 			Parser p =  new Parser(args);
 			p.parseArgs();
-			
+
 			Assert.IsFalse(p.Log.HasError,"Erreur rencontrée durant le traitement des arguments");
+		}
+		
+		[Test]
+		public void GetWithFakeUrl(){
+			string[] args = new string[]{"get","-url","http://horloge.parlaERREURURLnte.online.fr/","-save","C:/Bonjour.txt"};
+			Parser p =  new Parser(args);
+			p.parseArgs();
+
+			Assert.AreEqual(p.Log.Message.ToString(),"L'url entrée n'existe pas.\r\n");
 		}
 		
 		[Test]
@@ -44,7 +54,7 @@ namespace Nurl.Test
 		
 		[Test]
 		public void TestOptionTimeWithoutValue(){
-			string[] args = new string[]{"test","-url","http://blah.com","-times"};
+			string[] args = new string[]{"test","-url","http://horloge.parlante.online.fr/","-times"};
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
@@ -53,7 +63,7 @@ namespace Nurl.Test
 		
 		[Test]
 		public void TestOptionTimeWithValue(){
-			string[] args = new string[]{"test","-url","http://blah.com","-times","5"};
+			string[] args = new string[]{"test","-url","http://horloge.parlante.online.fr/","-times","5"};
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			
@@ -62,7 +72,7 @@ namespace Nurl.Test
 		
 		[Test]
 		public void TestOptionTimeWithValueNotNumeric(){
-			string[] args = new string[]{"test","-url","http://blah.com","-times","bonjour"};
+			string[] args = new string[]{"test","-url","http://horloge.parlante.online.fr/","-times","bonjour"};
 			Parser p =  new Parser(args);
 			p.parseArgs();
 			

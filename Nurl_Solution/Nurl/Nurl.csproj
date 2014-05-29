@@ -34,7 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <StartArguments>get -url "http://durant.com" -save</StartArguments>
+    <StartArguments>/?</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -61,6 +61,9 @@
   <ItemGroup>
     <Compile Include="ArgumentLine.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="DisplayResult.cs" />
+    <Compile Include="EnumMethod.cs" />
+    <Compile Include="ICore.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />

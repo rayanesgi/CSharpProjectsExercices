@@ -8,6 +8,8 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 
@@ -16,61 +18,123 @@ namespace Nurl
 	/// <summary>
 	/// Description of Core.
 	/// </summary>
-	public class Core
+	public class Core : ICore
 	{
 		
-		private ArgumentLine parseResult;
+		private ArgumentLine line;
 		
-		public Core(ArgumentLine p)
-		{
-			parseResult = p;
+		private LogManager log;
+		
+		private Stopwatch sw;
+				
+		public LogManager Log{
+			get{return log;}
 		}
 		
-		public string executeCommand(){
-			// TO IMPLEMENT
-			//if(parseResult.useTimes.Key)
-				return string.Empty;
+		public Core(ArgumentLine _line)
+		{
+			line = _line;
+			log = new LogManager();
+			sw = new Stopwatch();
+		}
+		
+		public void executeCommand(){
+			if(line.useGet){
+				
+				DisplayResult.displayMethod(EnumMethod.GET);
+				
+				if(line.useSave.Key)
+					DisplayResult.displayStateSave(this.executeSave());
+				else
+					DisplayResult.displayContent(this.executeGet());
+			}
+			
+			if(line.useTest){
+				
+				DisplayResult.displayMethod(EnumMethod.TEST);
+				
+				List<double> times = this.executeTest();
+				
+				if(line.useAvg)
+					DisplayResult.displayAvg(this.executeAvg(times),line.useTimes.Value);
+			}
 		}
 		
 		public string executeGet(){
-			return null;
+			try{
+				string result = null;
+						
+				using (var webClient = new System.Net.WebClient())
+				{
+				    result = webClient.DownloadString(line.useUrl.Value);
+				}
+				
+				return result;
+			}
+			catch(Exception exp){
+				log.Message.AppendLine("Une erreur a été rencontrée lors du téléchargement du contenu de l'url");
+				return null;
+			}
 		}
 		
-		public List<TimeSpan> executeTest(){
-			return null;
+		public List<double> executeTest(){
+			try{
+				if(!line.useTimes.Key)
+					return null;
+
+				List<double> ts = new List<double>();
+				
+				for(int i=0;i<line.useTimes.Value;i++){
+					sw.Reset();				
+					sw.Start();
+					executeGet();
+					sw.Stop();
+					var time = sw.ElapsedMilliseconds;
+					DisplayResult.displayTimes(time,i);
+					ts.Add(time);
+				}
+				
+				return ts;
+			}
+			catch(Exception exp){
+				log.Message.AppendLine("Une erreur a été rencontrée lors du téléchargement du contenu de l'url");
+				return null;
+			}
 		}
 		
-		public void executeSave(string filename){
-			
+		public bool executeSave(){
+			FileStream fs = null;
+			StreamWriter sw = null;
+			try{
+				using(fs = new FileStream(line.useSave.Value,FileMode.OpenOrCreate)){
+					using(sw = new StreamWriter(fs)){
+						if(line.isValidUrl)
+							sw.Write(this.executeGet());
+						else{
+							sw.Write("<h1>You're entered a fake url</h1>");
+							return false;
+						}
+					}
+				}
+				
+				return true;
+			}
+			catch(Exception exp){
+				log.Message.AppendLine("Une erreur a été rencontrée lors de la sauvegarde du fichier");
+				log.HasError = true;
+				if(fs!=null)
+					fs.Dispose();
+				
+				if(sw!=null)
+					sw.Dispose();
+				return false;
+			}
 		}
 		
-		public TimeSpan executeAvg(List<TimeSpan> times){
-			return new TimeSpan((long)times.Select(ts => ts.Seconds).Average());
+		public double executeAvg(List<double> times){
+			return times.Average(x=>x);
 		}
-		
-		private bool isAnUrl()
-		{
-		    try
-		    {
-		    	var url = parseResult.useUrl.Value;
-		    
-		    	if(!parseResult.useUrl.Key || string.IsNullOrEmpty(url))
-		    		return false;
-		    	
-		        //Creating the HttpWebRequest
-		        HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-		        //Setting the Request method HEAD, you can also use GET too.
-		        request.Method = "HEAD";
-		        //Getting the Web Response.
-		        HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-		        //Returns TRUE if the Status code == 200
-		        return (response.StatusCode == HttpStatusCode.OK);
-		    }
-		    catch
-		    {
-		        return false;
-		    }
-		}
+	
 		
 		}
 	}

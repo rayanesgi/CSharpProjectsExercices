@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace Nurl
@@ -37,7 +38,14 @@ namespace Nurl
 			get{return log;}
 		}
 		
-		public void parseArgs(){
+		public void parseArgs(){			
+			if(args.Length == 1 && (args[0].Equals("/?") || args[0].Equals("-?"))){
+				DisplayResult.displayHelp();
+				return;
+			}
+			
+			Console.WriteLine("\t\t\tLancement du programme NURL\n\n");
+			
 			int i=0;
 			
 			while(i<args.Length){
@@ -80,6 +88,9 @@ namespace Nurl
 					}
 				}
 				
+				if(args[i].Equals("-avg",StringComparison.OrdinalIgnoreCase))
+					line.useAvg=true;
+				
 				i++;				
 			}
 			
@@ -99,9 +110,10 @@ namespace Nurl
 			
 			if(!line.useUrl.Key){
 				log.HasError = true;
-				log.Message.AppendLine("Veuillez entrer une url à extraire.");
 				return;
 			}
+			else
+				line.isValidUrl = isAnUrl();
 				
 			
 			if(line.useGet){
@@ -115,8 +127,43 @@ namespace Nurl
 					log.HasError = true;
 					log.Message.AppendLine("L'option -save n'est pas disponible lorsque vous utilisez test");
 				}
+				if(!line.useTimes.Key){
+					log.HasError = true;
+					log.Message.AppendLine("L'option test ne peut fonctionner qu'avec l'option -times");
+				}
 			}
 			
+		}
+		
+		private bool isAnUrl()
+		{
+		    try
+		    {
+		    	var url = line.useUrl;
+		    
+		    	if(!url.Key || string.IsNullOrEmpty(url.Value))
+		    		return false;
+		    	
+		    	Console.WriteLine("Vérification de l'url entré ....\n");
+		    	
+		        //Creating the HttpWebRequest
+		        HttpWebRequest request = WebRequest.Create(url.Value) as HttpWebRequest;
+		        //Setting the Request method HEAD, you can also use GET too.
+		        request.Method = "HEAD";
+		        
+		        //Getting the Web Response.
+		        HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+		        //Returns TRUE if the Status code == 200
+		        
+		        response.Close();
+		        return (response.StatusCode == HttpStatusCode.OK);
+		    }
+		    catch
+		    {
+		    	log.Message.AppendLine("L'url entrée n'existe pas.");
+		    	// On ne met pas le processus en erreur.
+		    	return false;
+		    }
 		}
 		
 	}

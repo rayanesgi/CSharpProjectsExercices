@@ -31,6 +31,11 @@ namespace Nurl
 			set;
 		}
 		
+		public bool isValidUrl{
+			get;
+			set;
+		}
+		
 		
 		public KeyValuePair<bool,string> useSave{
 			get;
