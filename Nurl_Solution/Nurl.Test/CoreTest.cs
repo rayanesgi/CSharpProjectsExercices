@@ -49,8 +49,7 @@ namespace Nurl.Test
 			p.parseArgs();
 			
 			Core c = new Core(p.Line);
-			c.executeGet();
-			Assert.AreEqual("Une erreur a été rencontrée lors du téléchargement du contenu de l'url\r\n",c.Log.Message.ToString());
+			Assert.AreEqual("<h1>You're entered a fake url</h1>",c.executeGet());
 		}
 		
 		[Test]

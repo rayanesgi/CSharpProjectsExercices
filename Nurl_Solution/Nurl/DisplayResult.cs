@@ -54,7 +54,7 @@ namespace Nurl
 		
 		public static void displayStateSave(bool isOk){
 			string finalstate = isOk ? "Le fichier a bien été crée et contient le contenu de l'url" 
-				: "L'url n'était pas valide, ou l'écriture dans le fichier a rencontré un problème.";
+				: "L'url n'est pas valide, ou l'écriture dans le fichier a rencontré un problème. Fichier créé.";
 			Console.WriteLine(finalstate);
 		}
 		
