@@ -110,6 +110,7 @@ namespace Nurl
 			
 			if(!line.useUrl.Key){
 				log.HasError = true;
+				log.Message.AppendLine("Veuillez entrer une url à extraire");
 				return;
 			}
 			else

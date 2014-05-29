@@ -18,16 +18,16 @@ namespace Nurl
 			p.parseArgs();
 			
 			
-			if(p.Log.HasError)
+			if(p.Log.HasError){
 				Console.WriteLine(p.Log.Message.ToString());
+				return;
+			}
 			
 			Core coreAppli = new Core(p.Line);
 			coreAppli.executeCommand();
 			
 			if(coreAppli.Log.HasError)
 				Console.WriteLine(coreAppli.Log.Message.ToString());
-			
-			Console.ReadKey();
 		}
 	}
 }

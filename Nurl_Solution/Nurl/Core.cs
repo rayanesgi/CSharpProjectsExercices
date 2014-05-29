@@ -63,6 +63,9 @@ namespace Nurl
 		public string executeGet(){
 			try{
 				string result = null;
+				
+				if(!line.isValidUrl)
+					return "<h1>You're entered a fake url</h1>";
 						
 				using (var webClient = new System.Net.WebClient())
 				{
